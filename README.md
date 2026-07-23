@@ -25,20 +25,25 @@ Sau khi đã có đủ thư viện cơ bản, chạy các lệnh sau để tải
 
 ```bash
 # 1. Clone code từ GitHub về máy
-git clone https://github.com/svuong152/robotarm_ws.git
+git clone [https://github.com/svuong152/robotarm_ws.git](https://github.com/svuong152/robotarm_ws.git)
 
 # 2. Di chuyển vào thư mục workspace
 cd robotarm_ws
 
-# 3. Dùng rosdep để tự động cài đặt các thư viện còn thiếu theo yêu cầu của code
+# 3. Cập nhật lại apt để tránh lỗi thiếu gói phần mềm
+sudo apt update
+
+# 4. Dùng rosdep để tự động cài đặt các thư viện còn thiếu theo yêu cầu của code
 rosdep install --from-paths src --ignore-src -r -y
 
-# 4. Build toàn bộ code
+# 5. Build toàn bộ code
 colcon build
 
-# 5. Nạp biến môi trường
+# 6. Nạp biến môi trường
 source install/setup.bash
 ```
+
+
 ---
 
 ## 3. Hướng dẫn khởi chạy
@@ -69,3 +74,14 @@ Khi Terminal 2 chạy lên, màn hình sẽ hiện Menu điều khiển. Chỉ c
 * **Nhập `0`:** Lệnh cho cánh tay tự động thu về vị trí Home mặc định.
 * **Nhập `1`:** Chuyển sang chế độ nhập tọa độ. Lần lượt nhập vị trí X, Y, Z (đơn vị: mét) mà bạn muốn đầu gắp (tool0) đi tới. Hệ thống sẽ tự tính toán góc quay và di chuyển robot.
 * **Nhập `q`:** Thoát chương trình.
+
+---
+
+## 5. Mẹo: In nhanh tọa độ hiện tại của đầu gắp (tool0)
+Nếu trong quá trình chạy mà bạn muốn kiểm tra xem tọa độ không gian (X, Y, Z) và góc xoay hiện tại của đầu gắp (`tool0`) đang ở đâu, hãy mở một terminal mới và chạy lệnh sau:
+
+```bash
+ros2 run tf2_ros tf2_echo base_link tool0
+```
+* **Ý nghĩa:** Lệnh này sẽ liên tục lắng nghe hệ tọa độ của ROS 2 và in ra màn hình vị trí chính xác (Translation) cùng góc xoay (Rotation) của `tool0` so với gốc tọa độ `base_link` của robot theo thời gian thực.
+* **Cách thoát:** Bấm tổ hợp phím `Ctrl + C` để dừng lại.
