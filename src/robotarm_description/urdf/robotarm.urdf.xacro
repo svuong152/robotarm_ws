@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+<robot name="robotarm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property
+    name="mesh_scale"
+    value="0.001 0.001 0.001"/>
+
+  <!-- Link gốc rỗng cho KDL -->
+  <link name="base_footprint"/>
+
+  <!-- Điểm đầu công tác -->
+  <link name="tool0"/>
+
+  <!-- ==================== BASE LINK ==================== -->
+
+  <link name="base_link">
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/BaseLink.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/BaseLink.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================== SHOULDER LINK ================== -->
+
+  <link name="shoulder_link">
+
+    <visual>
+      <origin xyz="0 0 0.24" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link1.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.24" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link1.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= UPPER ARM LINK ================== -->
+
+  <link name="upper_arm_link">
+
+    <visual>
+      <origin xyz="0.157 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link2.STL"
+          scale="0.001 -0.001 0.001"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.157 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link2.STL"
+          scale="0.001 -0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================== FOREARM LINK =================== -->
+
+  <link name="forearm_link">
+
+    <visual>
+      <origin xyz="0.06 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link3.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.06 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link3.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= WRIST 1 LINK ==================== -->
+
+  <link name="wrist_1_link">
+
+    <visual>
+      <origin xyz="-0.16 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link4.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="-0.16 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link4.STL"
+          scale="${mesh_scale}"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= WRIST 2 LINK ==================== -->
+
+  <link name="wrist_2_link">
+
+    <visual>
+      <origin xyz="0 0 0.227" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link5.STL"
+          scale="-0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0.227" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/Link5.STL"
+          scale="-0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= WRIST 3 LINK ==================== -->
+
+  <link name="wrist_3_link">
+
+    <visual>
+      <origin xyz="0.33347 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/EndEffector.STL"
+          scale="-0.001 0.001 0.001"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin xyz="0.33347 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh
+          filename="package://robotarm_description/meshes/EndEffector.STL"
+          scale="-0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= BASE FIXED JOINT ================= -->
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ====================== JOINT 1 ==================== -->
+
+  <joint name="joint_1" type="revolute">
+    <parent link="base_link"/>
+    <child link="shoulder_link"/>
+
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="50"
+      velocity="1.0"/>
+  </joint>
+
+  <!-- ====================== JOINT 2 ==================== -->
+
+  <joint name="joint_2" type="revolute">
+    <parent link="shoulder_link"/>
+    <child link="upper_arm_link"/>
+
+    <origin xyz="0 0 0.240" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="50"
+      velocity="1.0"/>
+  </joint>
+
+  <!-- ====================== JOINT 3 ==================== -->
+
+  <joint name="joint_3" type="revolute">
+    <parent link="upper_arm_link"/>
+    <child link="forearm_link"/>
+
+    <origin xyz="0.157 0 0.25" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="50"
+      velocity="1.0"/>
+  </joint>
+
+  <!-- ====================== JOINT 4 ==================== -->
+
+  <joint name="joint_4" type="revolute">
+    <parent link="forearm_link"/>
+    <child link="wrist_1_link"/>
+
+    <origin xyz="0.06 0 0.25" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="20"
+      velocity="1.5"/>
+  </joint>
+
+  <!-- ====================== JOINT 5 ==================== -->
+
+  <joint name="joint_5" type="revolute">
+    <parent link="wrist_1_link"/>
+    <child link="wrist_2_link"/>
+
+    <origin xyz="-0.16 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="20"
+      velocity="1.5"/>
+  </joint>
+
+  <!-- ====================== JOINT 6 ==================== -->
+
+  <joint name="joint_6" type="revolute">
+    <parent link="wrist_2_link"/>
+    <child link="wrist_3_link"/>
+
+    <origin xyz="0 0 0.227" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+
+    <limit
+      lower="-1.5708"
+      upper="1.5708"
+      effort="20"
+      velocity="1.5"/>
+  </joint>
+
+  <!-- ====================== TOOL 0 ===================== -->
+
+  <joint name="tool0_fixed_joint" type="fixed">
+    <parent link="wrist_3_link"/>
+    <child link="tool0"/>
+    <origin xyz="0.33347 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <ros2_control name="FakeSystem" type="system">
+
+    <hardware>
+      <plugin>mock_components/GenericSystem</plugin>
+    </hardware>
+
+    <joint name="joint_1">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="joint_2">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="joint_3">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="joint_4">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="joint_5">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="joint_6">
+      <command_interface name="position"/>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+  </ros2_control>
+
+</robot>

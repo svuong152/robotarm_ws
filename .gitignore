@@ -1,0 +1,12 @@
+# ROS 2 workspace folders
+build/
+install/
+log/
+
+# Python caches
+__pycache__/
+*.pyc
+
+# VSCode or OS specific
+.vscode/
+.DS_Store
