@@ -25,7 +25,7 @@ Sau khi đã có đủ thư viện cơ bản, chạy các lệnh sau để tải
 
 ```bash
 # 1. Clone code từ GitHub về máy
-git clone [https://github.com/svuong152/robotarm_ws.git](https://github.com/svuong152/robotarm_ws.git)
+git clone https://github.com/svuong152/robotarm_ws.git
 
 # 2. Di chuyển vào thư mục workspace
 cd robotarm_ws
